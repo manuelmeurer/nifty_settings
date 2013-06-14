@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'settings/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'settings'
+  gem.name          = 'nifty-settings'
   gem.version       = Settings::VERSION
   gem.platform      = Gem::Platform::RUBY
   gem.authors       = ['Manuel Meurer']
