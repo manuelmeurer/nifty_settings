@@ -87,7 +87,7 @@ module NiftySettings
       def reset!
         @@default = nil
         default # Force us to reload the settings
-        Settings::Settings.setup_mailer! if defined?(ActionMailer)
+        NiftySettings::Settings.setup_mailer! if defined?(ActionMailer)
         # If a setup block is defined, call it post configuration.
         @setup_callback.call if defined?(@setup_callback) && @setup_callback
         true
