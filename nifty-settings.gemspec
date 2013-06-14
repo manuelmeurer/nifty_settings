@@ -5,7 +5,7 @@ require 'settings/version'
 
 Gem::Specification.new do |gem|
   gem.name          = 'settings'
-  gem.version       = GemConfig::VERSION
+  gem.version       = Settings::VERSION
   gem.platform      = Gem::Platform::RUBY
   gem.authors       = ['Manuel Meurer']
   gem.email         = 'manuel.meurer@gmail.com'
