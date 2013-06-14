@@ -1,7 +1,8 @@
+require 'pathname'
 require 'yaml'
 require 'erb'
 
-module Settings
+module NiftySettings
   class Settings
     def initialize(hash = {})
       @hash = Hash.new { |h,k| h[k] = self.class.new }
@@ -86,7 +87,7 @@ module Settings
       def reset!
         @@default = nil
         default # Force us to reload the settings
-        YouthTree::Settings.setup_mailer! if defined?(ActionMailer)
+        Settings::Settings.setup_mailer! if defined?(ActionMailer)
         # If a setup block is defined, call it post configuration.
         @setup_callback.call if defined?(@setup_callback) && @setup_callback
         true
@@ -167,12 +168,6 @@ module Settings
       else
         value
       end
-    end
-  end
-
-  if defined?(Rails::Railtie)
-    class Railtie < Rails::Railtie
-      config.to_prepare { YouthTree::Settings.reset! }
     end
   end
 end
