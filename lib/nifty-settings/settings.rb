@@ -142,7 +142,7 @@ module NiftySettings
       end
     end
 
-    protected
+    private
 
     def normalize_attr(value)
       case value
@@ -167,6 +167,24 @@ module NiftySettings
         value.map { |v| unpack_attr(v) }
       else
         value
+      end
+    end
+  end
+end
+
+# From activesupport/lib/active_support/core_ext/hash/deep_merge.rb
+unless Hash.new.respond_to?(:deep_merge)
+  class Hash
+    def deep_merge(other_hash, &block)
+      self.dup.tap do |this_hash|
+        other_hash.each_pair do |k,v|
+          tv = this_hash[k]
+          if tv.is_a?(Hash) && v.is_a?(Hash)
+            this_hash[k] = tv.deep_merge(v, &block)
+          else
+            this_hash[k] = block && tv ? block.call(k, tv, v) : v
+          end
+        end
       end
     end
   end
