@@ -1,10 +1,10 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'nifty-settings/version'
+require 'nifty_settings/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'nifty-settings'
+  gem.name          = 'nifty_settings'
   gem.version       = NiftySettings::VERSION
   gem.platform      = Gem::Platform::RUBY
   gem.authors       = ['Manuel Meurer']
