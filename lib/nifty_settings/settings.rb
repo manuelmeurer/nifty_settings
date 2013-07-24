@@ -87,7 +87,6 @@ module NiftySettings
       def reset!
         @@default = nil
         default # Force us to reload the settings
-        NiftySettings::Settings.setup_mailer! if defined?(ActionMailer)
         # If a setup block is defined, call it post configuration.
         @setup_callback.call if defined?(@setup_callback) && @setup_callback
         true
@@ -107,38 +106,6 @@ module NiftySettings
 
       def env
         @env ||= defined?(Rails) ? Rails.env : ENV['RACK_ENV']
-      end
-
-      def ssl?
-        !disable_ssl? && (force_ssl? || env == 'production')
-      end
-
-      def ssl_protocol
-        ssl? ? "https" : "http"
-      end
-
-      # Sets up ActionMailer to use settings from Settings.
-      def setup_mailer!
-        return unless mailer?
-        s = mailer
-        ActionMailer::Base.default_url_options[:host] = s.host
-        ActionMailer::Base.delivery_method            = s.delivery_method.to_sym
-        ActionMailer::Base.smtp_settings              = s.smtp_settings.to_hash     if s.smtp_settings?
-        ActionMailer::Base.sendmail_settings          = s.sendmail_settings.to_hash if s.sendmail_settings?
-        ActionMailer::Base.default              :from => s.from
-
-        # Setup sendgrid if present, sort of a faux-sendgrid helper.
-        if s.delivery_method.to_sym == :sendgrid
-          ActionMailer::Base.delivery_method = :smtp
-          ActionMailer::Base.smtp_settings   = {
-            :address        => "smtp.sendgrid.net",
-            :port           => "25",
-            :authentication => :plain,
-            :user_name      => s.sendgrid.username,
-            :password       => s.sendgrid.password,
-            :domain         => s.sendgrid.domain
-          }
-        end
       end
     end
 
