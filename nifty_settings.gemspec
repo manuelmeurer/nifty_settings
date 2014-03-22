@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = NiftySettings::VERSION
   gem.platform      = Gem::Platform::RUBY
   gem.authors       = ['Manuel Meurer']
-  gem.email         = 'manuel.meurer@gmail.com'
+  gem.email         = 'manuel@krautcomputing.com'
   gem.summary       = 'Settings'
   gem.description   = 'Settings'
   gem.homepage      = ''
