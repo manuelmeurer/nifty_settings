@@ -80,15 +80,15 @@ module NiftySettings
           $stderr.puts "Unable to load settings from #{settings_path} - Please check it exists and is readable."
           return {}
         end
-        if env.nil?
-          $stderr.puts 'Could not determine environment. If not using Rails, please set RACK_ENV env variable.'
-          return {}
-        end
         # Otherwise, try loading...
         contents = File.read(settings_path)
         contents = ERB.new(contents).result
         contents = YAML.load(contents)
-        (contents['default'] || {}).deep_merge(contents[env] || {})
+        if env.nil?
+          contents
+        else
+          (contents['default'] || {}).deep_merge(contents[env] || {})
+        end
       end
 
       def default
