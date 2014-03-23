@@ -12,6 +12,20 @@ module NiftySettings
     def to_hash
       unpack_attr @hash
     end
+    alias_method :to_h, :to_hash
+
+    def to_ary
+      self.to_hash.values
+    end
+    alias_method :to_a, :to_ary
+
+    def to_s
+      if self.nil?
+        nil
+      else
+        self.to_hash
+      end.to_s
+    end
 
     def []=(k, v)
       @hash[k.to_sym] = normalize_attr(v)
@@ -30,13 +44,10 @@ module NiftySettings
       has?(key) ? self[key] : default
     end
 
-    def blank?
-      @hash.blank?
+    def empty?
+      @hash.empty?
     end
-
-    def present?
-      !blank?
-    end
+    alias_method :nil?, :empty?
 
     def method_missing(name, *args, &blk)
       name = name.to_s
