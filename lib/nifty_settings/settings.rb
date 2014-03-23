@@ -5,7 +5,7 @@ require 'erb'
 module NiftySettings
   class Settings
     def initialize(hash = {})
-      @hash = Hash.new { |h,k| h[k] = self.class.new }
+      @hash = Hash.new { |h, k| h[k] = self.class.new }
       hash.each_pair { |k, v| self[k] = v }
     end
 
@@ -128,7 +128,7 @@ module NiftySettings
         value.to_hash
       when Hash
         Hash.new.tap do |h|
-          value.each_pair { |k,v| h[k] = unpack_attr(v) }
+          value.each_pair { |k, v| h[k] = unpack_attr(v) }
         end
       when Array
         value.map { |v| unpack_attr(v) }
@@ -144,7 +144,7 @@ unless Hash.new.respond_to?(:deep_merge)
   class Hash
     def deep_merge(other_hash, &block)
       self.dup.tap do |this_hash|
-        other_hash.each_pair do |k,v|
+        other_hash.each_pair do |k, v|
           tv = this_hash[k]
           if tv.is_a?(Hash) && v.is_a?(Hash)
             this_hash[k] = tv.deep_merge(v, &block)
