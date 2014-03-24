@@ -9,6 +9,10 @@ module NiftySettings
       hash.each_pair { |k, v| self[k] = v }
     end
 
+    def ==(other)
+      self.to_hash == other.to_hash
+    end
+
     def to_hash
       unpack_attr @hash
     end
@@ -36,8 +40,7 @@ module NiftySettings
     end
 
     def has?(key)
-      key = key.to_sym
-      @hash.has_key?(key) && @hash[key].present?
+      @hash.has_key?(key.to_sym)
     end
 
     def fetch(key, default = nil)
