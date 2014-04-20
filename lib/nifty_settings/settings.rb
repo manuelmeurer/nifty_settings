@@ -23,13 +23,14 @@ module NiftySettings
     end
     alias_method :to_a, :to_ary
 
-    def to_s
+    def to_str
       if self.nil?
         nil
       else
         self.to_hash
       end.to_s
     end
+    alias_method :to_s, :to_str
 
     def []=(k, v)
       @hash[k.to_sym] = normalize_attr(v)
