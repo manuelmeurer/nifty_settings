@@ -10,7 +10,7 @@ module NiftySettings
     end
 
     def ==(other)
-      self.to_hash == other.to_hash
+      self.to_s == other.to_s
     end
 
     def to_hash

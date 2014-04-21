@@ -7,9 +7,10 @@ describe NiftySettings::Settings do
   let(:empty_settings)       { NiftySettings::Settings.new }
 
   context 'comparing two settings' do
-    it 'uses the hash to determine whether they are the same' do
-      expect(NiftySettings::Settings.new(settings_hash)).to eq(NiftySettings::Settings.new(settings_hash))
-      expect(NiftySettings::Settings.new(settings_hash)).to_not eq(NiftySettings::Settings.new(nested_settings_hash))
+    it 'works as expected' do
+      expect(NiftySettings::Settings.new(settings_hash)).to     be == NiftySettings::Settings.new(settings_hash)
+      expect(NiftySettings::Settings.new(settings_hash)).to_not be == NiftySettings::Settings.new(nested_settings_hash)
+      expect(NiftySettings::Settings.new(settings_hash)).to_not be == 'random string'
     end
   end
 
