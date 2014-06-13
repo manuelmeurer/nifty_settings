@@ -58,7 +58,7 @@ module NiftySettings
       key, modifier = name[0..-2], name[-1, 1]
       case modifier
       when '?'
-        has?(key)
+        has?(name) ? self[name] : has?(key)
       when '='
         send(:[]=, key, *args)
       else
