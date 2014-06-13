@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe NiftySettings::Settings do
   let(:nested_settings_hash) { { pelle: 'fant', shnoo: 'shnaa' } }
-  let(:settings_hash)        { { foo: 'bar', nested: nested_settings_hash, really?: true, not_really?: false } }
+  let(:settings_hash)        { { foo: 'bar', nested: nested_settings_hash, really?: true, not_really?: false, nothing?: nil } }
   let(:settings)             { NiftySettings::Settings.new(settings_hash) }
   let(:empty_settings)       { NiftySettings::Settings.new }
 
@@ -68,6 +68,10 @@ describe NiftySettings::Settings do
 
       it 'returns false' do
         expect(settings.not_really?).to eq(false)
+      end
+
+      it 'returns nil' do
+        expect(settings.nothing?).to be_nil
       end
     end
 
