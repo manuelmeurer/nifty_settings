@@ -19,6 +19,10 @@ describe NiftySettings::Settings do
       it 'returns nil' do
         expect(settings.not_found).to be_nil
       end
+
+      it 'does not change the settings' do
+        expect { settings.not_found }.to_not change { settings.to_h }
+      end
     end
 
     context 'when the settings has a single value' do

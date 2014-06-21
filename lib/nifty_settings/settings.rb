@@ -56,13 +56,10 @@ module NiftySettings
     def method_missing(name, *args, &blk)
       name = name.to_s
       key, modifier = name[0..-2], name[-1, 1]
-      case modifier
-      when '?'
-        has?(name) ? self[name] : has?(key)
-      when '='
-        send(:[]=, key, *args)
-      else
-        self[name]
+      case
+      when modifier == '=' then self.send(:[]=, key, *args)
+      when self.has?(name) then self[name]
+      when modifier == '?' then self.has?(key)
       end
     end
 
