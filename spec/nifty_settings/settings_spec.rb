@@ -85,4 +85,35 @@ describe NiftySettings::Settings do
       end
     end
   end
+
+  describe '.load_from_file' do
+    it 'loads the settings from the default location' do
+      # Reset settings path in case it has been modified
+      NiftySettings::Settings.settings_path = nil
+
+      # Copy settings file to default location
+      settings_file = File.expand_path('../../support/settings.yml', __FILE__)
+      config_dir    = File.expand_path('../../../config', __FILE__)
+      FileUtils.mkdir_p config_dir
+      FileUtils.cp settings_file, config_dir
+
+      settings = NiftySettings::Settings.load_from_file
+      expect(settings).to eq('foo' => 'bar')
+
+      # Delete settings file again
+      FileUtils.rm File.join(config_dir, 'settings.yml')
+    end
+
+    it 'can load the settings from a custom location' do
+      NiftySettings::Settings.settings_path = File.expand_path('../../support/settings.yml', __FILE__)
+      settings = NiftySettings::Settings.load_from_file
+      expect(settings).to eq('foo' => 'bar')
+    end
+
+    it 'can load empty settings' do
+      NiftySettings::Settings.settings_path = File.expand_path('../../support/settings_empty.yml', __FILE__)
+      settings = NiftySettings::Settings.load_from_file
+      expect(settings).to eq({})
+    end
+  end
 end

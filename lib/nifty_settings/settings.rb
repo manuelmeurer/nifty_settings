@@ -76,6 +76,10 @@ module NiftySettings
         @@settings_path ||= root.join('config', 'settings.yml').to_s
       end
 
+      def settings_path=(value)
+        @@settings_path = value
+      end
+
       def load_from_file
         if !File.readable?(settings_path)
           $stderr.puts "Unable to load settings from #{settings_path} - Please check it exists and is readable."
@@ -84,7 +88,7 @@ module NiftySettings
         # Otherwise, try loading...
         contents = File.read(settings_path)
         contents = ERB.new(contents).result
-        contents = YAML.load(contents)
+        contents = YAML.load(contents) || {}
         if env.nil?
           contents
         else
