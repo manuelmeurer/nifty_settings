@@ -162,10 +162,13 @@ unless Hash.new.respond_to?(:deep_merge)
       self.dup.tap do |this_hash|
         other_hash.each_pair do |k, v|
           tv = this_hash[k]
-          if tv.is_a?(Hash) && v.is_a?(Hash)
-            this_hash[k] = tv.deep_merge(v, &block)
+          this_hash[k] = case
+          when tv.is_a?(Hash) && v.is_a?(Hash)
+            tv.deep_merge(v, &block)
+          when block_given? && tv
+            block.call(k, tv, v)
           else
-            this_hash[k] = block && tv ? block.call(k, tv, v) : v
+            v
           end
         end
       end
