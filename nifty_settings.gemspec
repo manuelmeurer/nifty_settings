@@ -9,9 +9,9 @@ Gem::Specification.new do |gem|
   gem.platform      = Gem::Platform::RUBY
   gem.author        = 'Manuel Meurer'
   gem.email         = 'manuel@krautcomputing.com'
-  gem.summary       = 'Settings'
-  gem.description   = 'Settings'
-  gem.homepage      = 'http://krautcomputing.github.io/nifty_settings'
+  gem.summary       = 'A nifty way to save and access application-wide settings.'
+  gem.description   = 'A nifty way to save and access application-wide settings.'
+  gem.homepage      = 'http://krautcomputing.github.io/nifty_settings/'
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
