@@ -87,33 +87,42 @@ describe NiftySettings::Settings do
   end
 
   describe '.load_from_file' do
-    it 'loads the settings from the default location' do
-      # Reset settings path in case it has been modified
-      NiftySettings::Settings.settings_path = nil
+    context 'without Rails and RACK_ENV' do
+      before do
+        # Make sure `ENV['RACK_ENV']` is not set and Rails is not loaded
+        # so that the loaded settings are not scoped to the env
+        ENV['RACK_ENV'] = nil
+        raise 'Rails should not be loaded.' if defined?(Rails)
+      end
 
-      # Copy settings file to default location
-      settings_file         = File.expand_path('../../support/settings.yml', __FILE__)
-      default_settings_file = File.expand_path('../../../config/settings.yml', __FILE__)
-      FileUtils.mkdir_p File.dirname(default_settings_file)
-      FileUtils.cp settings_file, default_settings_file
+      it 'loads the settings from the default location' do
+        # Reset settings path in case it has been modified
+        NiftySettings::Settings.settings_path = nil
 
-      settings = NiftySettings::Settings.load_from_file
-      expect(settings).to eq('foo' => 'bar')
+        # Copy settings file to default location
+        settings_file         = File.expand_path('../../support/settings.yml', __FILE__)
+        default_settings_file = File.expand_path('../../../config/settings.yml', __FILE__)
+        FileUtils.mkdir_p File.dirname(default_settings_file)
+        FileUtils.cp settings_file, default_settings_file
 
-      # Delete settings file again
-      FileUtils.rm default_settings_file
-    end
+        settings = NiftySettings::Settings.load_from_file
+        expect(settings).to eq('foo' => 'bar')
 
-    it 'can load the settings from a custom location' do
-      NiftySettings::Settings.settings_path = File.expand_path('../../support/settings.yml', __FILE__)
-      settings = NiftySettings::Settings.load_from_file
-      expect(settings).to eq('foo' => 'bar')
-    end
+        # Delete settings file again
+        FileUtils.rm default_settings_file
+      end
 
-    it 'can load empty settings' do
-      NiftySettings::Settings.settings_path = File.expand_path('../../support/settings_empty.yml', __FILE__)
-      settings = NiftySettings::Settings.load_from_file
-      expect(settings).to eq({})
+      it 'can load the settings from a custom location' do
+        NiftySettings::Settings.settings_path = File.expand_path('../../support/settings.yml', __FILE__)
+        settings = NiftySettings::Settings.load_from_file
+        expect(settings).to eq('foo' => 'bar')
+      end
+
+      it 'can load empty settings' do
+        NiftySettings::Settings.settings_path = File.expand_path('../../support/settings_empty.yml', __FILE__)
+        settings = NiftySettings::Settings.load_from_file
+        expect(settings).to eq({})
+      end
     end
   end
 end
