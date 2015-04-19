@@ -90,12 +90,15 @@ true
 
 ## Configuration
 
-### Specify configuration file
+### File locations
 
-By default NiftySettings looks for settings in `config/settings.yml`, but this can be changed by setting the path in an initializer.
+NiftySettings loads settings from a default file (`config/settings.yml`) and all YAML files in a default folder (`config/settings/*.yml`). This allows you to put simple settings in the default file but group related settings in dedicated files in the default folder.
+
+Both locations can be customized:
 
 ```ruby
-Settings.settings_path = '/home/shared/other_settings.yml'
+NiftySettings.configuration.settings_file = '/home/shared/other_settings.yml'
+NiftySettings.configuration.settings_folder = Rails.root.join('config', 'my_settings')
 ```
 
 ### Namespacing
