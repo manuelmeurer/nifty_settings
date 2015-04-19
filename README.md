@@ -15,7 +15,11 @@ Add this line to your application's Gemfile:
 gem 'nifty_settings'
 ```
 
-Add your settings in YAML format to `config/settings.yml`
+## Supported Ruby versions
+
+* 2.0
+* 2.1
+* 2.2
 
 ## Usage
 
