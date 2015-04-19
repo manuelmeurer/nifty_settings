@@ -53,7 +53,7 @@ module NiftySettings
     end
     alias_method :nil?, :empty?
 
-    def method_missing(name, *args, &blk)
+    def method_missing(name, *args, &block)
       name = name.to_s
       key, modifier = name[0..-2], name[-1, 1]
       case
@@ -63,56 +63,53 @@ module NiftySettings
       end
     end
 
-    def respond_to?(name, key = false)
+    def respond_to?(name, include_all = false)
       true
     end
 
     class << self
-      def setup(value = nil, &blk)
-        @@setup_callback = (blk || value)
-      end
+      def load
+        files = []
 
-      def settings_path
-        @@settings_path ||= root.join('config', 'settings.yml').to_s
-      end
-
-      def settings_path=(value)
-        @@settings_path = value
-      end
-
-      def load_from_file
-        if !File.readable?(settings_path)
-          $stderr.puts "Unable to load settings from #{settings_path} - Please check it exists and is readable."
-          return {}
+        settings_file = NiftySettings.configuration.settings_file || self.root.join('config', 'settings.yml')
+        if File.file?(settings_file)
+          files << settings_file
         end
-        # Otherwise, try loading...
-        contents = File.read(settings_path)
-        contents = ERB.new(contents).result
-        contents = YAML.load(contents) || {}
-        if env.nil?
-          contents
-        else
-          (contents['default'] || {}).deep_merge(contents[env] || {})
+
+        settings_dir = NiftySettings.configuration.settings_dir || self.root.join('config', 'settings')
+        if File.directory?(settings_dir)
+          files.concat Dir[File.join(settings_dir, '*.yml')]
+        end
+
+        return {} if files.empty?
+
+        files.inject({}) do |hash, file|
+          contents = File.read(file)
+          contents = ERB.new(contents).result
+          contents = YAML.load(contents) || {}
+          if env
+            contents = (contents['default'] || {}).deep_merge(contents[env] || {})
+          end
+          hash.deep_merge contents
         end
       end
 
       def default
-        @@default ||= new(load_from_file)
+        @@default ||= self.new(self.load)
       end
 
       def reset!
         @@default = nil
         default # Force us to reload the settings
         # If a setup block is defined, call it post configuration.
-        @setup_callback.call if defined?(@setup_callback) && @setup_callback
         true
       end
 
-      def method_missing(name, *args, &blk)
-        default.send(name, *args, &blk)
+      def method_missing(name, *args, &block)
+        default.send(name, *args, &block)
       end
 
-      def respond_to?(name, key = false)
+      def respond_to?(name, include_all = false)
         true
       end
 

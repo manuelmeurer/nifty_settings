@@ -1,4 +1,12 @@
+require 'gem_config'
+
 module NiftySettings
+  include GemConfig::Base
+
+  with_configuration do
+    has :settings_file, classes: [String, Pathname]
+    has :settings_dir, classes: [String, Pathname]
+  end
 end
 
 require 'nifty_settings/version'
