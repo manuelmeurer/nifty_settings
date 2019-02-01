@@ -108,3 +108,7 @@ NiftySettings.configuration.settings_folder = Rails.root.join('config', 'my_sett
 ### Namespacing
 
 During initialization, NiftySettings checks if there already is a `Settings` module. If it finds one (e.g. if you have a Rails model called `Settings`), NiftySettings doesn't touch it and your settings are available as `NiftySettings::Settings` in your application. If a `Settings` module is not found, `NiftySettings` uses it and you can access your Settings as `Settings`.
+
+## Support
+
+If you like this project, consider [buying me a coffee](https://www.buymeacoffee.com/279lcDtbF)! :)
