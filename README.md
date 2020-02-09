@@ -1,8 +1,8 @@
 # Nifty Settings
 
 [![Gem Version](https://badge.fury.io/rb/nifty_settings.png)](http://badge.fury.io/rb/nifty_settings)
-[![Build Status](https://secure.travis-ci.org/krautcomputing/nifty_settings.png)](http://travis-ci.org/krautcomputing/nifty_settings)
-[![Code Climate](https://codeclimate.com/github/krautcomputing/nifty_settings.png)](https://codeclimate.com/github/krautcomputing/nifty_settings)
+[![Build Status](https://secure.travis-ci.org/manuelmeurer/nifty_settings.png)](http://travis-ci.org/manuelmeurer/nifty_settings)
+[![Code Climate](https://codeclimate.com/github/manuelmeurer/nifty_settings.png)](https://codeclimate.com/github/manuelmeurer/nifty_settings)
 
 A nifty way to save and access application-wide settings. Great for managing different configurations for different Rails/Rack environments.
 

@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.email         = 'manuel@krautcomputing.com'
   gem.summary       = 'A nifty way to save and access application-wide settings.'
   gem.description   = 'A nifty way to save and access application-wide settings.'
-  gem.homepage      = 'http://krautcomputing.github.io/nifty_settings/'
+  gem.homepage      = ''
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
